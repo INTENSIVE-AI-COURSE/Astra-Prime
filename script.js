@@ -35,26 +35,36 @@ function displayJobs() {
         return;
     }
 
-    jobsList.innerHTML = paginatedJobs.map(job => `
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100 job-card shadow-sm">
-                <div class="card-body d-flex flex-column">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <span class="badge bg-soft-primary text-primary border border-primary small">${job.location}</span>
-                        <small class="text-muted">${new Date(job.created_at * 1000).toLocaleDateString()}</small>
-                    </div>
-                    <h5 class="card-title fw-bold text-dark mb-1">${job.title}</h5>
-                    <p class="text-primary small mb-3 fw-semibold">${job.company_name}</p>
-                    <div class="card-text text-secondary small mb-4" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
-                        ${job.description.replace(/<[^>]*>?/gm, '')}
-                    </div>
-                    <div class="mt-auto">
-                        <a href="${job.url}" target="_blank" class="btn btn-outline-primary btn-sm w-100 fw-bold">View Details</a>
-                    </div>
+
+jobsList.innerHTML = paginatedJobs.map(job => `
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 job-card p-2">
+            <div class="card-body d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="badge-location small">
+                        <i class="bi bi-geo-alt me-1"></i>${job.location}
+                    </span>
+                    <span class="text-muted small">${new Date(job.created_at * 1000).toLocaleDateString()}</span>
+                </div>
+                
+                <h5 class="card-title fw-bold text-dark mb-1">${job.title}</h5>
+                <p class="text-primary small mb-3 fw-bold">
+                    <i class="bi bi-building me-1"></i>${job.company_name}
+                </p>
+                
+                <div class="card-text text-secondary small mb-4" style="line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                    ${job.description.replace(/<[^>]*>?/gm, '')}
+                </div>
+                
+                <div class="mt-auto">
+                    <a href="${job.url}" target="_blank" class="btn btn-outline-primary w-100 fw-bold py-2" style="border-radius: 10px;">
+                        View Opportunity <i class="bi bi-arrow-up-right ms-1"></i>
+                    </a>
                 </div>
             </div>
         </div>
-    `).join('');
+    </div>
+`).join('');
 }
 
 function setupPagination() {
