@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astra Prime | Future-Proof Your Career</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root { --primary-color: #0d6efd; --dark-bg: #121212; }
+        .hero-section { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1500&q=80'); background-size: cover; background-position: center; color: white; padding: 100px 0; }
+        .job-card { transition: all 0.3s; border: none; border-radius: 12px; }
+        .job-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .navbar-brand { font-weight: 800; letter-spacing: 1px; }
+        footer { background: var(--dark-bg); color: #ccc; padding: 60px 0 20px; }
+    </style>
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">ASTRA<span class="text-primary">PRIME</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#jobs-section">Find Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact-section">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-3 fw-bold mb-3">Your Next Career Move Starts Here</h1>
+            <p class="lead mb-4">Discover thousands of remote and local opportunities with Astra Prime.</p>
+            <a href="#jobs-section" class="btn btn-primary btn-lg px-5 shadow">Browse Jobs</a>
+        </div>
+    </header>
+
+    <main class="container my-5" id="jobs-section">
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-8 text-center">
+                <h2 class="mb-4">Explore Opportunities</h2>
+                <div class="input-group input-group-lg shadow-sm">
+                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+                    <input type="text" id="searchInput" class="form-control border-start-0" placeholder="Job title, keywords, or company...">
+                </div>
+            </div>
+        </div>
+
+        <div id="jobsList" class="row g-4">
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p class="mt-2">Loading latest opportunities...</p>
+            </div>
+        </div>
+
+        <nav class="mt-5">
+            <ul id="pagination" class="pagination justify-content-center"></ul>
+        </nav>
+    </main>
+
+    <section id="contact-section" class="bg-white py-5 border-top">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-md-6">
+                    <h2 class="fw-bold">Get In Touch</h2>
+                    <p class="text-muted">Have questions about a listing? Our team is here to help you navigate your job search.</p>
+                    <div class="mt-4">
+                        <p><i class="bi bi-geo-alt-fill text-primary me-2"></i> 00100 Nairobi Kenya</p>
+                        <p><i class="bi bi-envelope-fill text-primary me-2"></i> support@astraprime.com</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <form id="contactForm">
+                        <div class="mb-3"><input type="text" class="form-control" placeholder="Your Name" required></div>
+                        <div class="mb-3"><input type="email" class="form-control" placeholder="Your Email" required></div>
+                        <div class="mb-3"><textarea class="form-control" rows="4" placeholder="Your Message"></textarea></div>
+                        <button type="submit" class="btn btn-dark w-100">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container text-center">
+            <p>&copy; 2026 Astra Prime. All rights reserved.</p>
+            <div class="fs-4">
+                <i class="bi bi-linkedin px-2"></i>
+                <i class="bi bi-twitter px-2"></i>
+                <i class="bi bi-github px-2"></i>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
