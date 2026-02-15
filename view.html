@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>View Job</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <a href="index.html">Home</a>
+      <a href="post.html">Post a job</a>
+      <a href="#">Contact</a>
+    </nav>
+
+    <div id="job-wrap" class="card-form" style="max-width:900px;margin:18px auto">
+      <p class="small">Loading job...</p>
+    </div>
+
+    <div class="site-footer">&copy; <span id="yr"></span> JobBoard</div>
+  </div>
+
+  <script>
+    document.getElementById('yr').innerText = new Date().getFullYear();
+    function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function getParam(n){ return new URL(location.href).searchParams.get(n); }
+    const id = getParam('id');
+    const jobs = JSON.parse(localStorage.getItem('currentJobs')||'[]');
+    const job = jobs.find(j=>String(j.__id)===String(id));
+    const wrap = document.getElementById('job-wrap');
+    if(!job){ wrap.innerHTML = '<p class="small">Job not found.</p>'; }
+    else{
+      const title = job.title || job.position || job.company_name || 'Job';
+      const company = job.company_name || '';
+      let date=''; try{ const d=new Date(job.created_at); date=isNaN(d)? (job.created_at||'') : d.toLocaleDateString(); }catch(e){}
+      const types = Array.isArray(job.job_types)? job.job_types.join(', '): (job.job_types||'');
+      const desc = (job.description||'').replace(/\n+/g,'<br>');
+      wrap.innerHTML = `
+        <h1 style="margin-top:0">${escapeHtml(title)}</h1>
+        <div class="company">${escapeHtml(company)}</div>
+        <div class="meta">${escapeHtml(date)} · ${escapeHtml(types)}</div>
+        <div style="margin-top:14px;color:#374151">${desc}</div>
+        <div style="margin-top:18px"><a class="btn btn-primary" href="apply.html?id=${encodeURIComponent(job.__id)}">Apply for this job</a></div>
+      `;
+    }
+  </script>
+</body>
+</html>

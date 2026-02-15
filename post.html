@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Post a Job</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<style>
+    /* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: white;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main Container */
+.container {
+    width: 100%;
+    padding: 20px;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 25px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    font-size: 16px;
+    transition: 0.3s ease;
+}
+
+.navbar a:hover {
+    color: #050505;
+}
+
+/* Card Form */
+.card-form {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    color: black;
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+.card-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* Grid Layout */
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Fields */
+.field {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.field label {
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.field input,
+.field textarea {
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    transition: 0.3s ease;
+}
+
+.field input:focus,
+.field textarea:focus {
+    box-shadow: 0 0 0 3px rgba(12, 12, 12, 0.6);
+}
+
+.field textarea {
+    resize: none;
+    min-height: 120px;
+}
+
+/* Button */
+.btn {
+    padding: 12px 28px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s ease;
+}
+
+.btn-primary {
+    background: #070707;
+    color: #333;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background: #060606;
+    transform: translateY(-2px);
+}
+
+/* Message */
+.small {
+    margin-top: 12px;
+    font-size: 14px;
+    text-align: right;
+    color: #000000;
+}
+
+/* Footer */
+.site-footer {
+    text-align: center;
+    margin-top: 25px;
+    color: rgb(0, 0, 0);
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+</style>
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <a href="index.html">Home</a>
+      <a href="post.html">Post a job</a>
+    </nav>
+
+    <div class="card-form" style="max-width:900px;margin:18px auto">
+      <h2>Post a job</h2>
+      <div class="grid-2">
+        <div class="field"><label>Job Title</label><input id="title"></div>
+        <div class="field"><label>Company</label><input id="company"></div>
+      </div>
+      <div class="field"><label>Job types (comma separated)</label><input id="types"></div>
+      <div class="field"><label>Description</label><textarea id="description"></textarea></div>
+      <div style="text-align:right"><button id="postBtn" class="btn btn-primary">Post Job</button></div>
+      <p id="msg" class="small"></p>
+    </div>
+
+    <div class="site-footer">&copy; <span id="yr"></span> JobBoard</div>
+  </div>
+
+  <script>
+    document.getElementById('yr').innerText = new Date().getFullYear();
+    document.getElementById('postBtn').addEventListener('click', ()=>{
+      const title = document.getElementById('title').value.trim();
+      const company = document.getElementById('company').value.trim();
+      const types = document.getElementById('types').value.split(',').map(s=>s.trim()).filter(Boolean);
+      const description = document.getElementById('description').value.trim();
+      if(!title || !company || !description){ document.getElementById('msg').innerText='Please fill title, company and description.'; return; }
+      const posted = JSON.parse(localStorage.getItem('postedJobs')||'[]');
+      const newJob = { title, company_name: company, job_types: types, description, created_at: new Date().toISOString() };
+      posted.unshift(newJob);
+      localStorage.setItem('postedJobs', JSON.stringify(posted));
+      localStorage.removeItem('currentJobs');
+      document.getElementById('msg').innerText = 'Job posted — redirecting to listings...';
+      setTimeout(()=> location.href='index.html', 900);
+    });
+  </script>
+</body>
+</html>

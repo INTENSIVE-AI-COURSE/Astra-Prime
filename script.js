@@ -11,10 +11,16 @@ fetch("https://www.arbeitnow.com/api/job-board-api", requestOptions)
   .then(response => response.json())
   .then(data => {
 
-    alljobs = data.data || [];
-    currentJobs = alljobs.slice();
+        const posted = JSON.parse(localStorage.getItem('postedJobs') || '[]');
+        const remote = Array.isArray(data.data) ? data.data : [];
+        alljobs = posted.concat(remote);
 
-    loadMore(currentJobs);
+        alljobs = alljobs.map((j, i) => ({ ...j, __id: i }));
+
+        currentJobs = alljobs.slice();
+        localStorage.setItem('currentJobs', JSON.stringify(currentJobs));
+
+        loadMore(currentJobs);
   })
   .catch(error => console.log('error', error));
 
@@ -48,7 +54,10 @@ function loadMore(jobsArray) {
             <div class="company">${company}</div>
             <div class="meta">${dateText} · ${jobTypes}</div>
             <p>${desc}</p>
-            <div class="cta"><button class="apply-btn">Apply</button></div>
+            <div class="cta">
+                <button class="btn btn-outline" onclick="viewJob(${singleJob.__id})">View</button>
+                <button class="btn btn-primary" onclick="applyJob(${singleJob.__id})">Apply</button>
+            </div>
         `;
 
         container.appendChild(jobElement);
@@ -94,3 +103,15 @@ if(clearBtn) clearBtn.addEventListener('click', function(){ document.getElementB
 // allow Enter key on search input
 const searchInputEl = document.getElementById('searchInput');
 if(searchInputEl) searchInputEl.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); searchJobs(); } });
+
+// navigation helpers used by buttons in cards
+function viewJob(id){
+    // ensure currentJobs cached
+    localStorage.setItem('currentJobs', JSON.stringify(currentJobs));
+    window.location.href = `view.html?id=${id}`;
+}
+
+function applyJob(id){
+    localStorage.setItem('currentJobs', JSON.stringify(currentJobs));
+    window.location.href = `apply.html?id=${id}`;
+}

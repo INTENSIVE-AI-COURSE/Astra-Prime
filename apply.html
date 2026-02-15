@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Apply</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<style>
+    /* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0f4c81, #1e88e5);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+/* Container */
+.container {
+    width: 100%;
+    padding: 20px;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 15px 0;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    position: relative;
+    transition: 0.3s;
+}
+
+.navbar a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background: white;
+    left: 0;
+    bottom: -5px;
+    transition: 0.3s;
+}
+
+.navbar a:hover::after {
+    width: 100%;
+}
+
+/* Card Form */
+.card-form {
+    background: white;
+    border-radius: 18px;
+    padding: 35px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.card-form h2 {
+    color: #0f4c81;
+    margin-bottom: 5px;
+}
+
+.company {
+    color: #1e88e5;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+/* Fields */
+.field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.field label {
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+.field input,
+.field textarea {
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #d0d7e2;
+    font-size: 14px;
+    transition: 0.3s ease;
+}
+
+.field input:focus,
+.field textarea:focus {
+    border-color: #1e88e5;
+    box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.2);
+    outline: none;
+}
+
+.field textarea {
+    resize: none;
+    min-height: 120px;
+}
+
+/* Button */
+.btn {
+    padding: 12px 30px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s ease;
+}
+
+.btn-primary {
+    background: #1e88e5;
+    color: white;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background: #1565c0;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(30, 136, 229, 0.3);
+}
+
+/* Status Text */
+.small {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Footer */
+.site-footer {
+    text-align: center;
+    margin-top: 30px;
+    color: white;
+    font-size: 14px;
+    opacity: 0.85;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .card-form {
+        padding: 25px;
+    }
+}
+
+</style>
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <a href="index.html">Home</a>
+      <a href="post.html">Post a job</a>
+    </nav>
+
+    <div id="wrap" class="card-form" style="max-width:900px;margin:18px auto">
+      <p class="small">Loading...</p>
+    </div>
+
+    <div class="site-footer">&copy; <span id="yr"></span> JobBoard</div>
+  </div>
+
+  <script>
+    document.getElementById('yr').innerText = new Date().getFullYear();
+    function getParam(n){ return new URL(location.href).searchParams.get(n); }
+    function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    const id = getParam('id');
+    const wrap = document.getElementById('wrap');
+    const jobs = JSON.parse(localStorage.getItem('currentJobs')||'[]');
+    const job = jobs.find(j=>String(j.__id)===String(id));
+    if(!job){ wrap.innerHTML = '<p class="small">Job not found.</p>'; }
+    else{
+      const title = job.title || job.position || job.company_name || 'Job';
+      wrap.innerHTML = `
+        <h2>Apply: ${escapeHtml(title)}</h2>
+        <div class="small company">${escapeHtml(job.company_name||'')}</div>
+        <div style="margin-top:12px" class="field"><label>Your name</label><input id="app_name"></div>
+        <div class="field"><label>Your email</label><input id="app_email" type="email"></div>
+        <div class="field"><label>Message / cover letter</label><textarea id="app_msg"></textarea></div>
+        <div style="text-align:right"><button id="send" class="btn btn-primary">Send application</button></div>
+        <p id="status" class="small"></p>
+      `;
+      document.getElementById('send').addEventListener('click', ()=>{
+        const name = document.getElementById('app_name').value.trim();
+        const email = document.getElementById('app_email').value.trim();
+        const msg = document.getElementById('app_msg').value.trim();
+        if(!name || !email){ document.getElementById('status').innerText='Please include name and email.'; return; }
+        const applications = JSON.parse(localStorage.getItem('applications')||'{}');
+        const key = String(job.__id);
+        if(!applications[key]) applications[key]=[];
+        applications[key].push({name,email,message:msg,applied_at:new Date().toISOString()});
+        localStorage.setItem('applications', JSON.stringify(applications));
+        document.getElementById('status').innerText = 'Application submitted. Thank you!';
+      });
+    }
+  </script>
+</body>
+</html>
