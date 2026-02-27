@@ -7,77 +7,38 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-
     <nav class="navbar">
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#jobs-container">jobs</a>
+        <a href="index.html" class="brand">Astra</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="jobs.html">Jobs</a>
+            <a href="contact.html">Contact</a>
+        </div>
     </nav>
-
-       <div class="search-container">
+      <div class="search-container">
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="Search for a job...">
             <button id="searchBtn">Search</button>
         </div>
         <button id="clearBtn">Clear</button>
     </div>
-
-
-    <div class="job-oppotunity">
-        <h2>Welcome to our job opportunities site</h2>
-        <p>Discover your next career move with us. We offer a wide range of job opportunities across various industries. Whether you're looking for a new challenge or your first job, we have something for everyone. Start exploring today and find the perfect job that matches your skills and aspirations.</p>
-        <button>view jobs</button>
-        
+    <div class="container" style="padding-right: 18px;">
+        <h1>Jobs & Blogs</h1>
+        <h3>Welcome to our jobs and blogs site.</h3>
+        <p>Ready to explore</p>
+        <button>Explore</button>
     </div>
+  
+    <div id="jobs-container" class="jobs-list" style="max-width:1500px;margin:18px auto"></div>
+    <button id="showMore">Show More</button>
 
- <div id="jobs-container">
-     
- </div>
-
- <button id="showMore">Show More</button>
-
-
-     <section class="contact-section">
-        <h2>Contact Us</h2>
-
-        <form action="#" method="POST">
-
-            <div>
-                <label for="name">Full Name</label><br>
-                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
-            </div>
-
-            <br>
-
-            <div>
-                <label for="email">Email Address</label><br>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required>
-            </div>
-
-            <br>
-
-            <div>
-                <label for="subject">Subject</label><br>
-                <input type="text" id="subject" name="subject" placeholder="Enter subject" required>
-            </div>
-
-            <br>
-
-            <!-- <div>
-                <label for="message">Message</label><br>
-                <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required></textarea>
-            </div>
-
-            <br> -->
-
-            <button type="submit">Send Message</button>
-
-        </form>
-    </section>
-
-
-
+    <main style="max-width:1800px;margin:28px auto;padding:16px;">
+        <h1>Latest News</h1>
+        <div id="all_news" class="all_news"></div>
+        <div style="text-align:center;margin-top:18px;">
+            <button id="show-more" style="padding:10px 16px;border-radius:8px;border:1px solid rgba(15,23,42,0.08);background:#ffffff;cursor:pointer;">Show more</button>
+        </div>
+    </main>
 
     <script src="script.js"></script>
 </body>
